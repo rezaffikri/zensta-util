@@ -86,8 +86,18 @@
     }
   }
 
-  removeStoryTray();
-  hideBottomNav();
-  hideUIElements();
-  hideInstagramLitePrompt();
+  const observer = new MutationObserver(() => {
+    hideBottomNav();
+    hideUIElements();
+    hideInstagramLitePrompt();
+    // Check the current URL before calling removeStoryTray
+    if (window.location.href === "https://www.instagram.com/") {
+      removeStoryTray();
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 })();
