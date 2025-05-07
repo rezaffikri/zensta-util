@@ -86,10 +86,7 @@
     }
   }
 
-  // Check the URL *before* calling removeStoryTray
-  if (window.location.href === "https://www.instagram.com/") {
-    removeStoryTray();
-  }
+  removeStoryTray();
   hideBottomNav();
   hideUIElements();
   hideInstagramLitePrompt();
