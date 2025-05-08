@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name        Instagram Script (Optimized)
+// @name        Instagram Script
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  Nyaa
 // @author       rezaffikri
 // @match        https://www.instagram.com/*
@@ -116,7 +116,7 @@
           });
 
           if (isSponsored) {
-            article.style.display = 'none';
+            article.remove();
           }
         });
       }
