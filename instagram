@@ -6,8 +6,8 @@
 // @author       rezaffikri
 // @match        https://www.instagram.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=instagram.com
-// @updateURL    https://raw.githubusercontent.com/namamu/namascript/main/myscript.user.js
-// @downloadURL  https://raw.githubusercontent.com/namamu/namascript/main/myscript.user.js
+// @updateURL    https://raw.githubusercontent.com/rezaffikri/zensta-util/refs/heads/main/instagram.js
+// @downloadURL  https://raw.githubusercontent.com/rezaffikri/zensta-util/refs/heads/main/instagram.js
 // @grant        none
 // ==/UserScript==
 
