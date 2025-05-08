@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Instagram Script
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Nyaa
 // @author       rezaffikri
 // @match        https://www.instagram.com/*
@@ -16,7 +16,6 @@
     const reelsButton = document.querySelector('a[href="/reels/"]');
     if (reelsButton) {
       reelsButton.style.display = 'none';
-      console.log('Reels button hidden.');
     } else {
       console.warn('Reels button not found.');
     }
@@ -33,7 +32,6 @@
         }
         if (parent) {
           parent.style.display = 'none';
-          console.log('Instagram Lite prompt hidden.');
         } else {
           console.warn('Instagram Lite prompt container not found.');
         }
@@ -50,7 +48,6 @@
           const targetDiv = nextSibling.querySelector('div > div > div');
           if (targetDiv) {
             targetDiv.style.display = 'none';
-            console.log('Found and hid the target nested div on Explore page.');
           } else {
             console.warn('Could not find the target nested div on Explore page.');
           }
@@ -63,7 +60,7 @@
         console.warn('Could not find any nav element on the Explore page.');
       }
     } else {
-      console.log('Not on Explore page, skipping hideExploreSection.'); // Added log
+      console.log('Not on Explore page, skipping hideExploreSection.');
     }
   };
 
@@ -74,7 +71,6 @@
     for (const [matchUrl, targetUrl] of Object.entries(redirectMappings)) {
       if (window.location.href.startsWith(matchUrl)) {
         window.location.href = targetUrl;
-        console.log(`Redirecting from ${matchUrl} to ${targetUrl}`);
         return;
       }
     }
@@ -84,7 +80,7 @@
     modifyUIElements();
     hideInstagramLitePrompt();
     checkAndRedirect();
-    hideExploreSection(); // Call only once here
+    hideExploreSection();
   });
 
   observer.observe(document.body, {
@@ -92,7 +88,7 @@
     subtree: true,
   });
 
-  modifyUIElements(); // Call these on initial load
+  modifyUIElements();
   hideExploreSection();
   checkAndRedirect();
 })();
