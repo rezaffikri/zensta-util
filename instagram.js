@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Instagram Script
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Nyaa
 // @author       rezaffikri
 // @match        https://www.instagram.com/*
@@ -105,7 +105,8 @@
       if (window.location.href === 'https://www.instagram.com/') {
         const articles = document.querySelectorAll('article');
 
-        articles.forEach((article) => {
+        for (let i = 0; i < articles.length; i++) { // Change to a for loop
+          const article = articles[i];
           const spans = article.querySelectorAll('span');
           let isSponsored = false;
 
@@ -116,9 +117,10 @@
           });
 
           if (isSponsored) {
-            article.remove();
+            article.style.display = 'none';
+            break; // Exit the loop after hiding the first sponsored article
           }
-        });
+        }
       }
     } catch (error) {
       console.error('Error in removeSponsored', error);
