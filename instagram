@@ -1,0 +1,98 @@
+// ==UserScript==
+// @name         Instagram Script
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  Nyaa
+// @author       rezaffikri
+// @match        https://www.instagram.com/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=instagram.com
+// @updateURL    https://raw.githubusercontent.com/namamu/namascript/main/myscript.user.js
+// @downloadURL  https://raw.githubusercontent.com/namamu/namascript/main/myscript.user.js
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  const modifyUIElements = () => {
+    const reelsButton = document.querySelector('a[href="/reels/"]');
+    if (reelsButton) {
+      reelsButton.style.display = 'none';
+      console.log('Reels button hidden.');
+    } else {
+      console.warn('Reels button not found.');
+    }
+  };
+
+  const hideInstagramLitePrompt = () => {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => {
+      if (button.innerText.trim() === 'Use Instagram Lite') {
+        let parent = button;
+        for (let i = 0; i < 3; i++) {
+          parent = parent.parentElement;
+          if (!parent) break;
+        }
+        if (parent) {
+          parent.style.display = 'none';
+          console.log('Instagram Lite prompt hidden.');
+        } else {
+          console.warn('Instagram Lite prompt container not found.');
+        }
+      }
+    });
+  };
+
+  const hideExploreSection = () => {
+    if (window.location.href === 'https://www.instagram.com/explore/') { // Added URL check
+      const navElement = document.querySelector('nav');
+      if (navElement) {
+        const nextSibling = navElement.nextElementSibling;
+        if (nextSibling && nextSibling.nodeName === 'DIV') {
+          const targetDiv = nextSibling.querySelector('div > div > div');
+          if (targetDiv) {
+            targetDiv.style.display = 'none';
+            console.log('Found and hid the target nested div on Explore page.');
+          } else {
+            console.warn('Could not find the target nested div on Explore page.');
+          }
+        } else if (nextSibling) {
+          console.warn('Found nav, but the next sibling is not a div on Explore page.');
+        } else {
+          console.warn('Found nav, but there is no next sibling on Explore page.');
+        }
+      } else {
+        console.warn('Could not find any nav element on the Explore page.');
+      }
+    } else {
+      console.log('Not on Explore page, skipping hideExploreSection.'); // Added log
+    }
+  };
+
+  const checkAndRedirect = () => {
+    const redirectMappings = {
+      'https://www.instagram.com/reels/': 'https://www.instagram.com/',
+    };
+    for (const [matchUrl, targetUrl] of Object.entries(redirectMappings)) {
+      if (window.location.href.startsWith(matchUrl)) {
+        window.location.href = targetUrl;
+        console.log(`Redirecting from ${matchUrl} to ${targetUrl}`);
+        return;
+      }
+    }
+  };
+
+  const observer = new MutationObserver(() => {
+    modifyUIElements();
+    hideInstagramLitePrompt();
+    checkAndRedirect();
+    hideExploreSection(); // Call only once here
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  modifyUIElements(); // Call these on initial load
+  hideExploreSection();
+  checkAndRedirect();
+})();
