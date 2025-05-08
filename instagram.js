@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Instagram Script
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  Nyaa
 // @author       rezaffikri
 // @match        https://www.instagram.com/*
@@ -17,7 +17,6 @@
   let instagramLitePromptButtons = [];
   let exploreNavElement = null;
   let targetLinkElement = null;
-  let feedsRemoved = false;
   let isExplorePage = window.location.href === 'https://www.instagram.com/explore/';
 
   const modifyUIElements = () => {
@@ -100,33 +99,6 @@
     }
   };
 
-  function removeSponsored() {
-    try {
-      if (window.location.href === 'https://www.instagram.com/') {
-        const articles = document.querySelectorAll('article');
-
-        for (let i = 0; i < articles.length; i++) { // Change to a for loop
-          const article = articles[i];
-          const spans = article.querySelectorAll('span');
-          let isSponsored = false;
-
-          spans.forEach((span) => {
-            if (span.textContent.toLowerCase().includes('sponsored')) {
-              isSponsored = true;
-            }
-          });
-
-          if (isSponsored) {
-            article.style.display = 'none';
-            break; // Exit the loop after hiding the first sponsored article
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error in removeSponsored', error);
-    }
-  }
-
   let lastScrollTop = 0;
   let scrollLocked = false;
   let targetLinkPosition = 0;
@@ -192,14 +164,12 @@
     instagramLitePromptButtons = [];
     exploreNavElement = null;
     targetLinkElement = null;
-    feedsRemoved = false;
     isExplorePage = window.location.href === 'https://www.instagram.com/explore/';
 
     modifyUIElements();
     hideInstagramLitePrompt();
     checkAndRedirect();
     hideExploreSection();
-    removeSponsored();
     observeScrollStopLink();
   }
 
